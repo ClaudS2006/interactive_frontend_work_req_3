@@ -75,16 +75,24 @@ This project demonstrates key React Router concepts:
 ### Custom Hook Architecture
 
 ```typescript
-// usePreferences Hook - Structured State Management
-function usePreferences() {
-  const [preferences, setPreferences] = useState({
+// Types for structured state management
+interface Preferences {
+  theme: 'light' | 'dark' | 'colorful';
+  mood: 'cheerful' | 'calm' | 'energetic' | 'cozy';
+  textSize: 'small' | 'medium' | 'large' | 'xlarge';
+  greeting: string;
+}
+
+// usePreferences Hook - Typed State Management
+function usePreferences(): [Preferences, (key: keyof Preferences, value: string) => void] {
+  const [preferences, setPreferences] = useState<Preferences>({
     theme: 'light',
     mood: 'cheerful',
     textSize: 'medium',
     greeting: 'Hello there!'
   });
 
-  const updatePreference = (key, value) => {
+  const updatePreference = (key: keyof Preferences, value: string) => {
     setPreferences(prev => ({
       ...prev,
       [key]: value
@@ -98,6 +106,12 @@ function usePreferences() {
 ### React Router with Outlet Context
 
 ```typescript
+// Outlet Context Types
+interface OutletContext {
+  preferences: Preferences;
+  updatePreference: (key: keyof Preferences, value: string) => void;
+}
+
 // Layout Component - State Container
 function Layout() {
   const [preferences, updatePreference] = usePreferences();
@@ -112,9 +126,9 @@ function Layout() {
   );
 }
 
-// Child Components - State Consumers
+// Child Components - Typed State Consumers
 function SettingsPage() {
-  const { preferences, updatePreference } = useOutletContext();
+  const { preferences, updatePreference } = useOutletContext<OutletContext>();
   // Component logic...
 }
 ```
