@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
+  NavLink,
   Outlet,
   useOutletContext,
   Navigate,
@@ -54,12 +54,12 @@ function Layout() {
         <div className="nav-container">
           <h1 className="nav-title">🎨 Preference Dashboard</h1>
           <div className="nav-buttons">
-            <Link to="/settings" className="nav-button">
+            <NavLink to="/settings" className="nav-button">
               ⚙️ Settings
-            </Link>
-            <Link to="/preview" className="nav-button">
+            </NavLink>
+            <NavLink to="/preview" className="nav-button">
               👁️ Preview
-            </Link>
+            </NavLink>
           </div>
         </div>
       </nav>
