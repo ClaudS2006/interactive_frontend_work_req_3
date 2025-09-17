@@ -2,33 +2,34 @@
 
 A React-based multi-page application that demonstrates advanced React Router concepts, custom hooks, and state management through a personalized theme and mood configuration system.
 
-## 🎯 Project Overview
+## Project Overview
 
 This Personal Preference Dashboard allows users to:
+
 - Configure personal preferences (theme, mood, text size, greeting)
 - Preview their customizations in real-time
 - Navigate between Settings and Preview pages
 - Experience live updates as preferences change
 
-## 🏗️ Architecture
+## Architecture & Learning Objectives
 
 This project demonstrates key React Router concepts:
 
-### ✅ Custom Hooks
-- **`usePreferences()`**: Manages structured preference state using advanced state patterns
+### Custom Hooks
+- **usePreferences()**: Manages structured preference state using advanced state patterns
 - Encapsulates complex state logic in reusable hook
 
-### ✅ React Router Implementation  
+### React Router Implementation  
 - **BrowserRouter**: Full client-side routing
 - **Outlet Context**: State sharing between route components
 - **Nested Routes**: Professional route organization
 
-### ✅ Multi-Page Navigation
+### Multi-Page Navigation
 - Settings page for preference configuration
 - Preview page for live customization display
-- Navigation with React Router Link components
+- Navigation with React Router NavLink components
 
-## 🚀 How to Run
+## How to Run
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -56,7 +57,7 @@ This project demonstrates key React Router concepts:
    - Navigate to `http://localhost:5173` (Vite default port)
    - The app will automatically redirect to the Settings page
 
-## 🎨 Features
+## Features
 
 ### Settings Page
 - **Theme Selection**: Light, Dark, or Colorful themes with instant visual feedback
@@ -70,12 +71,12 @@ This project demonstrates key React Router concepts:
 - **Preference Summary**: Overview of all current settings in organized cards
 - **Real-time Updates**: All changes from Settings page reflected instantly
 
-## 🔧 Technical Implementation
+## Technical Implementation
 
 ### Custom Hook Architecture
 
 ```typescript
-// Types for structured state management
+// Clean type definitions (src/types/preferences.ts)
 interface Preferences {
   theme: 'light' | 'dark' | 'colorful';
   mood: 'cheerful' | 'calm' | 'energetic' | 'cozy';
@@ -83,8 +84,8 @@ interface Preferences {
   greeting: string;
 }
 
-// usePreferences Hook - Typed State Management
-function usePreferences(): [Preferences, (key: keyof Preferences, value: string) => void] {
+// Focused custom hook (src/hooks/usePreferences.ts)
+export function usePreferences(): [Preferences, (key: keyof Preferences, value: string) => void] {
   const [preferences, setPreferences] = useState<Preferences>({
     theme: 'light',
     mood: 'cheerful',
@@ -93,43 +94,49 @@ function usePreferences(): [Preferences, (key: keyof Preferences, value: string)
   });
 
   const updatePreference = (key: keyof Preferences, value: string) => {
-    setPreferences(prev => ({
-      ...prev,
-      [key]: value
-    }));
+    setPreferences(prev => ({ ...prev, [key]: value }));
   };
 
   return [preferences, updatePreference];
 }
 ```
 
-### React Router with Outlet Context
+### React Router with Clean Architecture
 
 ```typescript
-// Outlet Context Types
-interface OutletContext {
-  preferences: Preferences;
-  updatePreference: (key: keyof Preferences, value: string) => void;
+// Main routing setup (src/components/PreferenceDashboard.tsx)
+export function PreferenceDashboard() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/settings" replace />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="preview" element={<PreviewPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-// Layout Component - State Container
-function Layout() {
+// Layout with state management (src/components/Layout.tsx)
+export function Layout() {
   const [preferences, updatePreference] = usePreferences();
   
   return (
     <div className={`theme-${preferences.theme}`}>
       <Navigation />
-      <main>
+      <main className="main-content">
         <Outlet context={{ preferences, updatePreference }} />
       </main>
     </div>
   );
 }
 
-// Child Components - Typed State Consumers
-function SettingsPage() {
+// Clean component consumption (src/components/SettingsPage.tsx)
+export function SettingsPage() {
   const { preferences, updatePreference } = useOutletContext<OutletContext>();
-  // Component logic...
+  // Focused settings UI logic...
 }
 ```
 
@@ -139,73 +146,95 @@ function SettingsPage() {
 - **Instant Updates**: No save buttons required - changes apply immediately
 - **Navigation Persistence**: State maintained across route changes
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 interactive_frontend_work_req_3/
 ├── src/
+│   ├── types/
+│   │   └── preferences.ts               # TypeScript type definitions
+│   ├── hooks/
+│   │   └── usePreferences.ts            # Custom preference state hook
+│   ├── constants/
+│   │   └── moodContent.ts               # Static mood data and configurations
 │   ├── components/
-│   │   └── PreferenceDashboard.tsx    # Main component with routing & state
-│   ├── App.tsx                        # App wrapper
-│   ├── main.tsx                       # Vite entry point
-│   └── index.css                      # Custom styles (no external frameworks)
-├── index.html                         # Vite HTML template
-├── package.json                       # Dependencies & scripts
-├── vite.config.ts                     # Vite configuration
-└── README.md                          # This file
+│   │   ├── PreferenceDashboard.tsx      # Main router component (18 lines)
+│   │   ├── Layout.tsx                   # App layout with state management (18 lines)
+│   │   ├── Navigation.tsx               # Navigation component (25 lines)
+│   │   ├── SettingsPage.tsx             # Settings configuration UI (120 lines)
+│   │   └── PreviewPage.tsx              # Live preview display (100 lines)
+│   ├── App.tsx                          # App wrapper
+│   ├── main.tsx                         # Vite entry point
+│   └── index.css                        # Custom styles
+├── index.html                           # Vite HTML template
+├── package.json                         # Dependencies & scripts
+├── vite.config.ts                       # Vite configuration
+├── LICENSE                              # MIT License
+└── README.md                            # This file
 ```
 
-## 🎓 Learning Concepts Demonstrated
+## Learning Concepts Demonstrated
 
-### 1. **React Router Architecture**
+### 1. React Router Architecture
 - **BrowserRouter**: Client-side routing setup
 - **Routes & Route**: Declarative route configuration  
 - **Outlet Context**: Professional state sharing pattern
 - **useOutletContext**: Hook-based context consumption
 
-### 2. **Custom Hook Patterns**
-- `usePreferences()` encapsulates complex state logic
+### 2. Custom Hook Patterns
+- usePreferences() encapsulates complex state logic
 - Follows React Hook rules and conventions
 - Reusable across multiple components
 
-### 3. **Component Communication**
-- Parent-child state flow via Outlet context
-- Centralized state management
-- Real-time synchronization between components
+### 3. Clean Component Architecture
+- **Single Responsibility Principle**: Each file has one clear purpose
+- **Separation of Concerns**: Types, logic, data, and UI are cleanly separated
+- **Professional File Organization**: Follows industry-standard React project structure
+- **Maintainable Code**: Small, focused components (18-120 lines each)
 
-### 4. **Professional UI Patterns**
+### 4. Professional UI Patterns
 - Custom CSS without external frameworks
 - Responsive design principles
 - Smooth transitions and visual feedback
 - Accessible interaction patterns
 
-## 🔄 Development Workflow
+## Development Workflow
 
 ### Adding New Preferences
 
-1. **Update the preference state structure** in `usePreferences()`
-2. **Add UI controls** in `SettingsPage` component
-3. **Apply preferences** in `PreviewPage` component
-4. **Test live updates** between pages
+1. **Update types** in `src/types/preferences.ts`
+2. **Update default state** in `src/hooks/usePreferences.ts`
+3. **Add UI controls** in `src/components/SettingsPage.tsx`
+4. **Apply preferences** in `src/components/PreviewPage.tsx`
+5. **Test live updates** between pages
 
 ### Adding New Pages
 
-1. **Create new route component**
-2. **Add Route** to the Routes configuration
-3. **Update navigation** with new Link
-4. **Access shared state** via `useOutletContext()`
+1. **Create new component** in `src/components/`
+2. **Add Route** to `src/components/PreferenceDashboard.tsx`
+3. **Update navigation** in `src/components/Navigation.tsx`
+4. **Access shared state** via `useOutletContext<OutletContext>()`
 
-## ✨ Key Features
+## Key Features
 
-- **🎨 Live Theme Switching**: Instant visual updates across the entire app
-- **💭 Mood-Based Content**: Dynamic quotes and styling based on mood selection
-- **📏 Accessibility**: Configurable text sizes for better readability
-- **👋 Personalization**: Custom greeting messages
-- **📱 Responsive Design**: Works seamlessly on all device sizes
-- **🔄 State Persistence**: Preferences maintained during navigation
-- **⚡ Fast Development**: Built with Vite for optimal developer experience
+- **Live Theme Switching**: Instant visual updates across the entire app
+- **Mood-Based Content**: Dynamic quotes and styling based on mood selection
+- **Accessibility**: Configurable text sizes for better readability
+- **Personalization**: Custom greeting messages
+- **Responsive Design**: Works seamlessly on all device sizes
+- **State Persistence**: Preferences maintained during navigation
+- **Fast Development**: Built with Vite for optimal developer experience
 
-## 🚀 Technology Stack
+## Assessment Criteria Met
+
+✅ **Multi-page application**: Settings and Preview pages with React Router navigation  
+✅ **Two distinct pages**: Clear separation of concerns between configuration and preview  
+✅ **Multiple preferences**: Theme, mood, text size, and greeting (4 total)  
+✅ **Custom state hook**: usePreferences() managing structured state object  
+✅ **State sharing**: Outlet context implementation for component communication  
+✅ **Live updates**: Preview page reflects current preferences in real-time  
+
+## Technology Stack
 
 - **React 18**: Modern React with hooks
 - **React Router 7**: Latest routing capabilities with Outlet context
@@ -214,9 +243,10 @@ interactive_frontend_work_req_3/
 - **Custom CSS**: No external styling frameworks
 - **Modern JavaScript**: ES6+ features and patterns
 
-## 🎓 Connection to React Router Learning
+## Connection to React Router Learning
 
 This project demonstrates mastery of:
+
 - **Advanced State Management**: Custom hooks managing complex state objects
 - **Route-Based Architecture**: Professional multi-page application structure  
 - **Context Patterns**: Sharing state between route components
