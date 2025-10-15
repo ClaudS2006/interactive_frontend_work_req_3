@@ -158,11 +158,11 @@ interactive_frontend_work_req_3/
 │   ├── constants/
 │   │   └── moodContent.ts               # Static mood data and configurations
 │   ├── components/
-│   │   ├── PreferenceDashboard.tsx      # Main router component (18 lines)
-│   │   ├── Layout.tsx                   # App layout with state management (18 lines)
-│   │   ├── Navigation.tsx               # Navigation component (25 lines)
-│   │   ├── SettingsPage.tsx             # Settings configuration UI (120 lines)
-│   │   └── PreviewPage.tsx              # Live preview display (100 lines)
+│   │   ├── PreferenceDashboard.tsx      # Main router component
+│   │   ├── Layout.tsx                   # App layout with state management
+│   │   ├── Navigation.tsx               # Navigation component
+│   │   ├── SettingsPage.tsx             # Settings configuration UI 
+│   │   └── PreviewPage.tsx              # Live preview display
 │   ├── App.tsx                          # App wrapper
 │   ├── main.tsx                         # Vite entry point
 │   └── index.css                        # Custom styles
