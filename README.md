@@ -164,8 +164,10 @@ interactive_frontend_work_req_3/
 │   │   ├── SettingsPage.tsx             # Settings configuration UI 
 │   │   └── PreviewPage.tsx              # Live preview display
 │   ├── App.tsx                          # App wrapper
+│   ├── App.css                          # App-specific styles
 │   ├── main.tsx                         # Vite entry point
-│   └── index.css                        # Custom styles
+│   ├── index.css                        # Global styles
+│   └── vite-env.d.ts                    # Vite TypeScript declarations
 ├── index.html                           # Vite HTML template
 ├── package.json                         # Dependencies & scripts
 ├── vite.config.ts                       # Vite configuration
